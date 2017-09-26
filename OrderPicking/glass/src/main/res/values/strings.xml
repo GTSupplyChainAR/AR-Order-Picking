@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">OrderPicking</string>
+    <string name="title_activity_main">Hello World Immersion</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string-array name="screens">
+        <item>pic1</item>
+        <item>pic2</item>
+        <item>pic3</item>
+        <item>pic4</item>
+        <item>pic5</item>
+        <item>pic6</item>
+        <item>pic7</item>
+    </string-array>
+</resources>
