@@ -31,5 +31,3 @@ def generatePickPath(length):
 	return book_list
 
 pprint(generatePickPath(14))
-
-
