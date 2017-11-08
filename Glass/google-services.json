@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "264475138122",
+    "firebase_url": "https://ar-order-picking.firebaseio.com",
+    "project_id": "ar-order-picking",
+    "storage_bucket": "ar-order-picking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264475138122:android:a0b7e03410f35b50",
+        "android_client_info": {
+          "package_name": "indoornavigation.com.glass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "264475138122-ohf8nhft0vldv8fobmu82u5dinocjel5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE33B0ILlClJOnlM16b08HzezefEh6UQI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
