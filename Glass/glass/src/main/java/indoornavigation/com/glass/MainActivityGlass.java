@@ -1,13 +1,13 @@
 package indoornavigation.com.glass;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityGlass extends Activity {
 
     int numberOfPicks = 10;
 
