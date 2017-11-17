@@ -4,16 +4,21 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivityGlass extends Activity {
 
-    int numberOfPicks = 10;
+    int numberOfPicks = 4;
+    PickPath path = new PickPath();
+    List<Pick> demoPickPath = path.generateDemoPickPath();
+
 
     String currentUser;
 
@@ -120,6 +125,8 @@ public class MainActivityGlass extends Activity {
         authorText = findViewById(R.id.author_text);
 
         instructionText = findViewById(R.id.instruction_text);
+
+        startPicking();
     }
 
     // todo this needs to be called by user input
@@ -142,9 +149,28 @@ public class MainActivityGlass extends Activity {
     }
 
     private void generateNextPick() {
+        // Reset UI dumb implementation
+        if (pickTimes.size() > 0) {
+            Pick previous = demoPickPath.get(pickTimes.size() - 1);
+            letterViews[previous.getAisle()].setBackgroundColor(getResources().getColor(R.color.lime_green));
+            if (previous.getRow() % 2 == 0) {
+                blockViews[previous.getRow()][previous.getCol()].setBackgroundColor(getResources().getColor(R.color.light_red));
+            } else {
+                blockViews[previous.getRow()][previous.getCol()].setBackgroundColor(getResources().getColor(R.color.light_blue));
+            }
+        }
+
         // todo display next pick on ui
         if (pickTimes.size() < numberOfPicks) {
             lastStartTime = System.currentTimeMillis();
+
+            Pick book = demoPickPath.get(pickTimes.size());
+            titleText.setText(book.getTitle());
+            authorText.setText(book.getAuthor());
+            locationText.setText(book.getLocation());
+            letterViews[book.getAisle()].setBackgroundColor(getResources().getColor(R.color.red));
+            blockViews[book.getRow()][book.getCol()].setBackgroundColor(getResources().getColor(R.color.red));
+
         } else {
             finishPicking();
         }
@@ -162,6 +188,7 @@ public class MainActivityGlass extends Activity {
                 displayRowView();
             } else {
                 // currentView = PathView.ROW
+                completePick();
                 generateNextPick();
                 displayAisleView();
             }
@@ -176,6 +203,5 @@ public class MainActivityGlass extends Activity {
         rowView.setVisibility(View.VISIBLE);
         instructionText.setText("Tap to move to next book.");
     }
-
 
 }
