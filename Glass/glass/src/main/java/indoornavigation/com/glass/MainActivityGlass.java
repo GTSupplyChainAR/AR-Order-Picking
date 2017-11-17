@@ -2,18 +2,19 @@ package indoornavigation.com.glass;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivityGlass extends Activity {
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
+
+public class MainActivityGlass extends Activity implements GestureDetector.BaseListener {
 
     int numberOfPicks = 4;
     PickPath path = new PickPath();
@@ -23,9 +24,11 @@ public class MainActivityGlass extends Activity {
     String currentUser;
 
     Long lastStartTime;
-    ArrayList<Long> pickTimes = new ArrayList<>(numberOfPicks);
+    ArrayList<Long> pickTimes = new ArrayList(numberOfPicks);
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    boolean shouldProgress = true;
 
     /* ----- UI ----- */
     View parentView;
@@ -119,12 +122,14 @@ public class MainActivityGlass extends Activity {
                 },
         };
 
-        locationText = findViewById(R.id.location_text);
-        isbnText = findViewById(R.id.isbn_text);
-        titleText = findViewById(R.id.title_text);
-        authorText = findViewById(R.id.author_text);
+        locationText = (TextView)findViewById(R.id.location_text);
+        isbnText = (TextView)findViewById(R.id.isbn_text);
+        titleText = (TextView)findViewById(R.id.title_text);
+        authorText = (TextView)findViewById(R.id.author_text);
 
-        instructionText = findViewById(R.id.instruction_text);
+        instructionText = (TextView)findViewById(R.id.instruction_text);
+
+        new GestureDetector(this);
 
         startPicking();
     }
@@ -134,14 +139,6 @@ public class MainActivityGlass extends Activity {
         // todo debug this
         currentUser = database.getReference("ar-order-picking").push().getKey();
         generateNextPick();
-    }
-
-    private void displayAisleView() {
-        currentView = PathView.AISLE;
-        rowView.setVisibility(View.GONE);
-        aisleView.setVisibility(View.VISIBLE);
-        instructionText.setText("Tap for row view.");
-
     }
 
     // todo this needs to be called when a user has picked
@@ -162,7 +159,7 @@ public class MainActivityGlass extends Activity {
             }
         }
 
-        // todo display next pick on ui
+        // Display next pick on ui
         if (pickTimes.size() < numberOfPicks) {
             lastStartTime = System.currentTimeMillis();
 
@@ -184,26 +181,43 @@ public class MainActivityGlass extends Activity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+    public boolean onGesture(Gesture gesture) {
+        if (gesture == Gesture.TAP) {
             if (currentView == PathView.AISLE) {
                 displayRowView();
             } else {
-                // currentView = PathView.ROW
-                completePick();
-                generateNextPick();
                 displayAisleView();
             }
             return true;
+        } else if (gesture == Gesture.SWIPE_LEFT || gesture == Gesture.SWIPE_RIGHT || gesture == Gesture.SWIPE_DOWN || gesture == Gesture.SWIPE_UP) {
+            if (shouldProgress) {
+                completePick();
+                shouldProgress = false;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        shouldProgress = true;
+                    }
+                }, 1000);
+            }
+
+            return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return false;
     }
 
     private void displayRowView() {
         currentView = PathView.ROW;
         aisleView.setVisibility(View.GONE);
         rowView.setVisibility(View.VISIBLE);
-        instructionText.setText("Tap to move to next book.");
+        instructionText.setText("Tap for aisle view. Swipe for next book.");
+    }
+
+    private void displayAisleView() {
+        currentView = PathView.AISLE;
+        rowView.setVisibility(View.GONE);
+        aisleView.setVisibility(View.VISIBLE);
+        instructionText.setText("Tap for row view. Swipe for next book.");
     }
 
 }

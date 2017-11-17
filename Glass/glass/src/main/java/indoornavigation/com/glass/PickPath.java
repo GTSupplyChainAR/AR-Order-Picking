@@ -12,11 +12,11 @@ public class PickPath {
     private List<Pick> picks;
 
     public PickPath() {
-        picks = new ArrayList<>();
+        picks = new ArrayList();
     }
 
     public List<Pick> generateDemoPickPath() {
-        picks = new ArrayList<>();
+        picks = new ArrayList();
         String [] titles = {
                 "The Name of the Wind",
                 "Lord of the Rings",
