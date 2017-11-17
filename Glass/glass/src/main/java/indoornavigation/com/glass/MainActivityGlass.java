@@ -3,6 +3,7 @@ package indoornavigation.com.glass;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class MainActivityGlass extends Activity implements GestureDetector.BaseL
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     boolean shouldProgress = true;
+
+    GestureDetector detector;
 
     /* ----- UI ----- */
     View parentView;
@@ -129,9 +132,18 @@ public class MainActivityGlass extends Activity implements GestureDetector.BaseL
 
         instructionText = (TextView)findViewById(R.id.instruction_text);
 
-        new GestureDetector(this);
+        detector = new GestureDetector(this);
+        detector.setBaseListener(this);
 
         startPicking();
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (detector != null) {
+            return detector.onMotionEvent(event);
+        }
+        return false;
     }
 
     // todo this needs to be called by user input
@@ -169,6 +181,8 @@ public class MainActivityGlass extends Activity implements GestureDetector.BaseL
             locationText.setText(book.getLocation());
             letterViews[book.getAisle()].setBackgroundColor(getResources().getColor(R.color.red));
             blockViews[book.getRow()][book.getCol()].setBackgroundColor(getResources().getColor(R.color.red));
+
+            displayAisleView();
 
         } else {
             finishPicking();
