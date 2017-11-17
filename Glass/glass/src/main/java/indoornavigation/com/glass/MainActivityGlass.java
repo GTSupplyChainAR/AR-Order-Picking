@@ -140,6 +140,8 @@ public class MainActivityGlass extends Activity {
         currentView = PathView.AISLE;
         rowView.setVisibility(View.GONE);
         aisleView.setVisibility(View.VISIBLE);
+        instructionText.setText("Tap for row view.");
+
     }
 
     // todo this needs to be called when a user has picked
