@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "264475138122-n9r80itq6g2f3b621gi3dijqku46vo67.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "indoornavigation.com.glass",
+            "certificate_hash": "c38e9f67b2083f36868e63ef7b1713b11bcc38bc"
+          }
+        },
+        {
           "client_id": "264475138122-jtosb9ojs8vi2jbnkshuej8amp178ec2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

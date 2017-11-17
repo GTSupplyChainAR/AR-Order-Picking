@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "264475138122-jtosb9ojs8vi2jbnkshuej8amp178ec2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "indoornavigation.com.glass",
+            "certificate_hash": "e7df21d83c3a8d304e2a1215cd0d767b3df79f19"
+          }
+        },
+        {
           "client_id": "264475138122-ohf8nhft0vldv8fobmu82u5dinocjel5.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "264475138122-ohf8nhft0vldv8fobmu82u5dinocjel5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
