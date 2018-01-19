@@ -3,6 +3,7 @@ package indoornavigation.com.glass;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class MainActivityGlass extends Activity implements GestureDetector.BaseL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         currentView = PathView.AISLE;
 
         setContentView(R.layout.activity_main);
@@ -134,6 +136,12 @@ public class MainActivityGlass extends Activity implements GestureDetector.BaseL
 
         detector = new GestureDetector(this);
         detector.setBaseListener(this);
+
+        //Parsing INPUTS
+        InputHandler input_h = new InputHandler(this);
+        //This function must later return our Data Structure that holds the data
+        input_h.load_data_JSON("books.json");
+        //End of Parsing Inputs
 
         startPicking();
     }
@@ -233,5 +241,6 @@ public class MainActivityGlass extends Activity implements GestureDetector.BaseL
         aisleView.setVisibility(View.VISIBLE);
         instructionText.setText("Tap for row view. Swipe for next book.");
     }
+
 
 }
